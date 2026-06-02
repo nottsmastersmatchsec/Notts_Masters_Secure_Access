@@ -104,7 +104,7 @@
       Access granted.
       <a id="docLink1" href="#" target="_blank" rel="noopener noreferrer">Notts Masters Players</a>
       <a id="docLink2" href="#" target="_blank" rel="noopener noreferrer">Notts Masters Matches</a>
-      <a id="docLink2" href="#" target="_blank" rel="noopener noreferrer">Notts Masters Planner</a>
+      <a id="docLink3" href="#" target="_blank" rel="noopener noreferrer">Notts Masters Planner</a>
     </div>
     
     
@@ -124,6 +124,7 @@
     const successEl = document.getElementById("success");
     const docLink1 = document.getElementById("docLink1");
     const docLink2 = document.getElementById("docLink2");
+    const docLink3 = document.getElementById("docLink3");
 
     submitBtn.addEventListener("click", () => {
       const value = passwordInput.value.trim();
@@ -132,7 +133,7 @@
         successEl.style.display = "block";
         docLink1.href = DOC_URL_1;
         docLink2.href = DOC_URL_2;
-        docLink2.href = DOC_URL_3;
+        docLink3.href = DOC_URL_3;
       } else {
         successEl.style.display = "none";
         errorEl.style.display = "block";
