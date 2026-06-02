@@ -5,11 +5,30 @@
   <title>Notts Masters Badminton — Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
+    /* Reset GitHub Pages / theme padding */
+    html, body {
       margin: 0;
+      padding: 0;
+    }
+
+    body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #f5f5f5;
       color: #222;
+    }
+
+    /* Kill any outer GitHub wrapper spacing */
+    body > div {
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+
+    /* Our own centred page wrapper */
+    .page-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: transparent;
     }
 
     header {
@@ -39,7 +58,7 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 100%;
       margin: 40px auto;
       padding: 0 20px;
       text-align: center;
@@ -50,22 +69,20 @@
       color: #0a1a33;
     }
 
-    /* Guaranteed centred Facebook box */
+    /* Facebook box – centred and responsive */
     .fb-container {
       width: 100%;
-      display: block;          /* ensures full width on mobile */
-      text-align: center;      /* centres inline-block children */
+      text-align: center;
     }
 
     .fb-container iframe {
-      display: inline-block;   /* allows text-align to centre it */
+      display: inline-block;
       width: 100%;
       max-width: 400px;
       height: 800px;
       border: none;
       overflow: hidden;
       border-radius: 8px;
-      margin: 0 auto;          /* fallback centring */
     }
 
     footer {
@@ -80,47 +97,45 @@
 </head>
 <body>
 
-<header>
-  <h1>Notts Masters Badminton</h1>
-  <p>Official Club Website</p>
-</header>
+<div class="page-wrapper">
+  <header>
+    <h1>Notts Masters Badminton</h1>
+    <p>Official Club Website</p>
+  </header>
 
-<!-- Shared nav include -->
-<div id="nav"></div>
-<script>
-  fetch("/Home/nav.html")
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById("nav").innerHTML = data;
-    });
-</script>
+  <!-- Shared nav include -->
+  <div id="nav"></div>
+  <script>
+    fetch("/Home/nav.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("nav").innerHTML = data;
+      });
+  </script>
 
-<div class="container">
-  <h2>About Us</h2>
-  <p>Welcome to the Notts Masters Badminton Club website. Explore fixtures, players, and documents, or access the secure Captains Area.</p>
+  <div class="container">
+    <h2>About Us</h2>
+    <p>Welcome to the Notts Masters Badminton Club website. Explore fixtures, players, and documents, or access the secure Captains Area.</p>
 
-  <h2>Follow Us on Facebook</h2>
+    <h2>Follow Us on Facebook</h2>
 
-  <div class="fb-container">
-    <iframe 
-      src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100077877812929&tabs=timeline&width=400&height=800&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true"
-      width="400"
-      height="800"
-      scrolling="no"
-      frameborder="0"
-      allowfullscreen="true"
-      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-    </iframe>
+    <div class="fb-container">
+      <iframe 
+        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100077877812929&tabs=timeline&width=400&height=800&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true"
+        width="400"
+        height="800"
+        scrolling="no"
+        frameborder="0"
+        allowfullscreen="true"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+      </iframe>
+    </div>
   </div>
 
+  <footer>
+    © Notts Masters Badminton — Home
+  </footer>
 </div>
-
-<footer>
-  © Notts Masters Badminton — Home
-</footer>
 
 </body>
 </html>
-
-
-
