@@ -3,7 +3,7 @@
 // ===============================
 
 // Replace this with your SHA-256 hash
-const PASSWORD_HASH = "3d9f1f5f8baf0da8223790fb70d137e75a4e5c2c8f3c6f0d5d1e3e6f4f8a1b9c";
+const PASSWORD_HASH = "ff3f3be9a9c6155b7c5f6b5a40584fd68e91f99112791d3c71a0dcafe2ad279f";
 
 // Hash function
 async function sha256(message) {
