@@ -2,51 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Player Availability — DEBUG MODE</title>
+  <title>Player Availability — Access Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
 <body>
 
-<h2>DEBUG MODE — Player Availability Access</h2>
-<p>If you see this, redirects are not firing.</p>
+<div class="page-wrapper">
 
-<pre id="debugBox" style="background:#eee;padding:20px;border-radius:8px;"></pre>
+<header style="background:#0a1a33;color:white;padding:20px;text-align:center;">
+  <h1>Notts Masters Badminton</h1>
+  <p>Player Availability</p>
+</header>
+
+<div id="nav"></div>
+<script>
+  fetch("/Home/nav.html")
+    .then(r => r.text())
+    .then(html => document.getElementById("nav").innerHTML = html);
+</script>
+
+<div style="max-width:900px;margin:40px auto;text-align:center;font-size:1.2rem;">
+  <h2>Checking Access…</h2>
+</div>
+
+<footer style="margin-top:40px;padding:20px;text-align:center;background:#0a1a33;color:white;">
+  © Notts Masters Badminton — Player Availability
+</footer>
+
+</div>
 
 <script>
   const raw = localStorage.getItem("clubSession");
-  const debug = document.getElementById("debugBox");
+  if (!raw) window.location.href = "/Home/login/login.html?redirect=availability";
 
-  debug.innerHTML += "RAW SESSION:\n" + raw + "\n\n";
-
-  if (!raw) {
-    debug.innerHTML += "NO RAW SESSION — redirecting to login...\n";
-    window.location.href = "/Home/login/login.html?redirect=availability";
-  }
-
-  let session;
-  try { session = JSON.parse(raw); }
-  catch {
-    debug.innerHTML += "JSON PARSE FAILED — clearing session...\n";
-    localStorage.removeItem("clubSession");
-    window.location.href = "/Home/login/login.html?redirect=availability";
-  }
-
-  debug.innerHTML += "PARSED SESSION:\n" + JSON.stringify(session, null, 2) + "\n\n";
-
-  if (!session || !session.loggedIn) {
-    debug.innerHTML += "NOT LOGGED IN — redirecting...\n";
-    window.location.href = "/Home/login/login.html?redirect=availability";
-  }
-
+  let session = JSON.parse(raw);
   const role = (session.captain_selector || "").toLowerCase().trim();
-  debug.innerHTML += "DETECTED ROLE: " + role + "\n\n";
 
   if (role === "captain" || role === "selector") {
-    debug.innerHTML += "REDIRECT → captains page\n";
     window.location.href = "/Home/captains/access.html";
   } else {
-    debug.innerHTML += "REDIRECT → player form\n";
     window.location.href = "/Home/player-availability/form.html";
   }
 </script>
