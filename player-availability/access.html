@@ -56,10 +56,8 @@
 </footer>
 
 <script>
-  // Load session
   const raw = localStorage.getItem("clubSession");
 
-  // Not logged in → send to login
   if (!raw) {
     window.location.href = "/Home/login/login.html?redirect=availability";
   }
@@ -75,16 +73,13 @@
     window.location.href = "/Home/login/login.html?redirect=availability";
   }
 
-  // Normalise role
   const role = (session.captain_selector || "").toLowerCase().trim();
 
-  // ⭐ If Captain or Selector → go to Captains Area
   if (role === "captain" || role === "selector") {
     window.location.href = "/Home/captains/access.html";
     return;
   }
 
-  // ⭐ Anything else → treat as Player → go to Player Availability Form
   window.location.href = "/Home/player-availability/form.html";
 </script>
 
