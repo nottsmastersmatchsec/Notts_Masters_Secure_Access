@@ -51,6 +51,13 @@
 
     nav a:hover { text-decoration: underline; }
 
+    .container {
+      max-width: 100%;
+      margin: 40px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+
     footer {
       margin-top: 50px;
       padding: 20px;
@@ -66,25 +73,25 @@
 
 <div class="page-wrapper">
 
-<header>
-  <h1>Notts Masters Badminton</h1>
-  <p>Player Availability</p>
-</header>
+  <header>
+    <h1>Notts Masters Badminton</h1>
+    <p>Player Availability</p>
+  </header>
 
-<div id="nav"></div>
-<script>
-  fetch("/Home/nav.html")
-    .then(r => r.text())
-    .then(html => document.getElementById("nav").innerHTML = html);
-</script>
+  <div id="nav"></div>
+  <script>
+    fetch("/Home/nav.html")
+      .then(r => r.text())
+      .then(html => document.getElementById("nav").innerHTML = html);
+  </script>
 
-<div style="max-width:900px;margin:40px auto;text-align:center;">
-  <h2 id="status">Checking access…</h2>
-</div>
+  <div class="container">
+    <h2 id="status">Checking access…</h2>
+  </div>
 
-<footer>
-  © Notts Masters Badminton — Player Availability
-</footer>
+  <footer>
+    © Notts Masters Badminton — Player Availability
+  </footer>
 
 </div>
 
@@ -111,3 +118,4 @@
 
 </body>
 </html>
+
