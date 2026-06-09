@@ -133,7 +133,7 @@
     });
 </script>
 
-<!-- LOAD SHARED PASSWORD FILE -->
+<!-- LOAD HASHED PASSWORD -->
 <script src="/Home/auth/password.js"></script>
 
 <div class="container">
@@ -162,7 +162,7 @@
 </footer>
 
 <script>
-  const PASSWORD = window.CAPTAINS_PASSWORD;
+  const PASSWORD_HASH = window.CAPTAINS_PASSWORD_HASH;   // from password.js
   const SESSION_KEY = "captainsAuth";
 
   const DOC_URL_1 = "/Home/captains/players.html";
@@ -178,8 +178,16 @@
   const docLink2 = document.getElementById("docLink2");
   const docLink3 = document.getElementById("docLink3");
 
+  // SHA‑256 hashing function
+  async function sha256(str) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+    return [...new Uint8Array(buf)]
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
   // If already authenticated this session, show links immediately
-  if (sessionStorage.getItem(SESSION_KEY) === PASSWORD) {
+  if (sessionStorage.getItem(SESSION_KEY) === PASSWORD_HASH) {
     successEl.style.display = "block";
     docLink1.href = DOC_URL_1;
     docLink2.href = DOC_URL_2;
@@ -192,13 +200,15 @@
     togglePassword.textContent = type === "password" ? "👁️" : "🙈";
   });
 
-  function unlock() {
+  async function unlock() {
     const value = passwordInput.value.trim();
-    if (value === PASSWORD) {
+    const hash = await sha256(value);
+
+    if (hash === PASSWORD_HASH) {
       errorEl.style.display = "none";
       successEl.style.display = "block";
 
-      sessionStorage.setItem(SESSION_KEY, PASSWORD);
+      sessionStorage.setItem(SESSION_KEY, PASSWORD_HASH);
 
       docLink1.href = DOC_URL_1;
       docLink2.href = DOC_URL_2;
@@ -212,9 +222,7 @@
   submitBtn.addEventListener("click", unlock);
 
   passwordInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      unlock();
-    }
+    if (e.key === "Enter") unlock();
   });
 </script>
 
