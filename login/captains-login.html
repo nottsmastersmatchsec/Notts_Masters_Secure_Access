@@ -135,16 +135,44 @@
   const form = document.getElementById("login-form");
   const errorEl = document.getElementById("error");
 
+  // ⭐ Convert DD/MM/YYYY or DD-MM-YYYY or DD MM YYYY → YYYY-MM-DD
+  function normaliseDob(input) {
+    if (!input) return "";
+
+    // Already ISO
+    if (/^\d{4}-\d{2}-\d{2}$/.test(input)) {
+      return input;
+    }
+
+    // Replace / or space with -
+    const cleaned = input.replace(/[\/ ]/g, "-");
+
+    // Match DD-MM-YYYY
+    const match = cleaned.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+    if (match) {
+      const [_, dd, mm, yyyy] = match;
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    return ""; // invalid
+  }
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     errorEl.textContent = "";
 
-    // ⭐ FIXED: avoid overwriting the variable name "email"
     const emailInput = document.getElementById("email").value.trim().toLowerCase();
     const beNumberInput = document.getElementById("be_number").value.trim();
-    const dobInput = document.getElementById("dob").value; // YYYY-MM-DD
+    const dobRaw = document.getElementById("dob").value.trim();
 
-    // ⭐ Query Supabase
+    // ⭐ Convert UK date formats to ISO
+    const dobInput = normaliseDob(dobRaw);
+
+    if (!dobInput) {
+      errorEl.textContent = "Please enter a valid date of birth.";
+      return;
+    }
+
     const { data, error } = await supabaseClient
       .from("profiles")
       .select("*")
@@ -163,7 +191,7 @@
       return;
     }
 
-    // ⭐ FIXED: normalise Supabase DOB (removes timezone)
+    // ⭐ Normalise Supabase DOB (remove timezone)
     const supaDob = data.dob?.split("T")[0];
 
     if (supaDob !== dobInput) {
@@ -171,7 +199,6 @@
       return;
     }
 
-    // ⭐ Check role
     const role = (data.captain_selector || "").toLowerCase().trim();
 
     if (role !== "captain" && role !== "selector") {
@@ -179,16 +206,15 @@
       return;
     }
 
-    // ⭐ Save session
     localStorage.setItem(
       "clubSession",
       JSON.stringify({ loggedIn: true, ...data })
     );
 
-    // ⭐ Redirect
     window.location.href = "/Home/captains/access.html";
   });
 </script>
+
 
 </script>
 
